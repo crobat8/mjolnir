@@ -6,6 +6,7 @@ import Workouts from '../componets/Workouts';
 
 import Navbar from '../componets/Navbar';
 
+
 //import Chat from "../componets/Chat";
 
 const Home = () =>{ 
@@ -29,7 +30,7 @@ const Home = () =>{
     return (
         <div className="home">
             <div className="container">
-                <div>
+                <div >
                     <div className="sidebar">
                         <Navbar/>  
                         <button onClick={()=>setCount(1)}>
@@ -43,11 +44,7 @@ const Home = () =>{
                         </button>
                     </div>
                 </div>
-                <div>
-                    <HandleSwap/>
-                </div>
-                
-
+                <HandleSwap/>
             </div>
         </div>
     )

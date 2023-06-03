@@ -1,79 +1,56 @@
-import React, { useState,useContext } from "react";
-import Add from "../img/addAvatar.png";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db, storage } from "../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
-import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import React, { useState } from "react";
+import LogDisc from "./LogDisc";
+import LogGlide from "./LogGlide";
+import LogRotational from "./LogRotational";
+import LogHammer from "./LogHammer";
+
 
 const Log = () =>{
 
-    const{currentUser} = useContext(AuthContext);
-
-    const handleSubmit = async (e) => {
+    const [count,setCount] = useState(1);
+    
+    function HandleSwap(){
         
-        e.preventDefault();
-        
-
-        const StandReps = e.target[0].value;
-        const StandDistance = e.target[1].value;
-        const WheelReps = e.target[2].value;
-        const WheelDistance = e.target[3].value;
-        const FullReps = e.target[4].value;
-        const FullDistance = e.target[5].value;
-
-        console.log(currentUser);
-        
-        
-        try{
-            
-            let date = await new Date().getTime();
-            date = date.toString();
-            await setDoc(doc(db, "workouts", date), {
-                uid: currentUser.uid,
-                StandReps,
-                StandDistance,
-                WheelReps,
-                WheelDistance,
-                FullReps,
-                FullDistance,
-                date,
-              });
-
-        }catch(err){
-            alert(err)
+        if(count === 1){
+            return <LogDisc/>;
+        }else if(count === 2){
+            return <LogGlide/>
+        }else if(count === 3){
+            return <LogRotational/>
+        }else if(count === 4){
+            return <LogHammer/>
+        }else {
+            return null;
         }
 
-        
     }
-
-
-
-    return(
-        <div className="Log">
-            <form className="Form"onSubmit={handleSubmit}>
-                <label for="StandReps" >Stand Throw Reps:</label>
-                <input required id="StandReps" name="StandReps" type="number" />
-                <label for="StandDisatnce" >Stand Throw Distance:</label>
-                <input required id="StandDisatnce" name="StandDisatnce" type="number" step=".01"/>
-                <label for="WheelReps" >Wheel Throw Reps:</label>
-                <input required id="WheelReps" name="WheelReps" type="number" />
-                <label for="WheelDistance" >Wheel Throw Distance:</label>
-                <input required id="WheelDistance" name="WheelDistance" type="number" step=".01"/>
-                <label for="FullReps" >Full Throw Reps:</label>
-                <input required id="FullReps" name="FullReps" type="number" />
-                <label for="FullDistance" >Stand Throw Distance:</label>
-                <input required id="FullDistance" name="FullDistance" type="number" step=".01"/>
-                <button>Log</button>
-
-            </form>
-
-        </div>
-
-            
+    
+    return (
         
-    );
+            <div className="RightSide" >
+                <div className="eventselect">
+                    <button onClick={()=>setCount(1)}>
+                        Disc
+                    </button>
+                    <button onClick={()=>setCount(2)}>
+                        Glide
+                    </button>
+                    <button onClick={()=>setCount(3)}>
+                        Rotational
+                    </button>
+                    <button onClick={()=>setCount(4)}>
+                        Hammer
+                    </button>
+                </div>
+                
+
+                    <HandleSwap/>
+
+                
+
+            </div>
+        
+    )
 }
 
 export default Log;
