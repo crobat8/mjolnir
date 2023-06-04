@@ -1,7 +1,7 @@
 import React,{ useState,useContext, useEffect } from "react";
-import {  app,db  } from "../firebase";
+import {  db  } from "../firebase";
 
-import { doc,collection, query, where, getDocs,getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -34,7 +34,7 @@ const Graph = (props) =>{
 
     useEffect(() => {
         getWorkouts()
-    },[])
+    },)
 
     useEffect(() => {
         
@@ -57,7 +57,7 @@ const Graph = (props) =>{
 
     return(
         <div>
-            <h1>{props.event}</h1>
+            <h1>{props.important}</h1>
             <ul>
                 {workouts.map(workout =><li key={workout.id}>{workout.data.event}</li>)}
             </ul>

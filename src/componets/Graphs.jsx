@@ -8,10 +8,10 @@ const Graphs = () =>{
     return(
         <div className="graphView">
             <h1>Graphs page:</h1>
-            <Graph event ="Disc"/>
-            <Graph event ="Glide"/>
-            <Graph event ="Rotational"/>
-            <Graph event ="Hammer"/>
+            <Graph event ="Disc" important="fullDistance"/>
+            <Graph event ="Glide" important="fullDistance"/>
+            <Graph event ="Rotational" important="fullDistance"/>
+            <Graph event ="Hammer" important="FourDistance"/>
         </div>
     );
 }
