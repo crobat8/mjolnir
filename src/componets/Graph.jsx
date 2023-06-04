@@ -57,9 +57,9 @@ const Graph = (props) =>{
 
     return(
         <div>
-            <h1>{props.important}</h1>
+            <h1>{props.event}</h1>
             <ul>
-                {workouts.map(workout =><li key={workout.id}>{workout.data.event}</li>)}
+                {workouts.map(workout =><li key={workout.id}>{workout.data[props.important]}</li>)}
             </ul>
         </div>
     );
