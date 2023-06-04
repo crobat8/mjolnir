@@ -145,6 +145,16 @@ $darkColor: #2f2d52;
             }
             
         }
+        .graphView{
+            margin:4px, 4px;
+                padding:4px;
+                background-color: #ddddf7;
+                width: 500px;
+                
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify;
+        }
         .sidebar{
             flex: 1;
             background-color: #3e3c61;

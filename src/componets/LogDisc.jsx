@@ -36,7 +36,7 @@ const LogDisc = () =>{
                 FullReps,
                 FullDistance,
                 date,
-                event:"disc",
+                event:"Disc",
               });
 
         }catch(err){
