@@ -20,14 +20,19 @@ const LogDisc = () =>{
         const FullReps = e.target[4].value;
         const FullDistance = e.target[5].value;
 
-        console.log(currentUser);
+
         
         
         try{
             
             let date = await new Date().getTime();
             date = date.toString();
-            await setDoc(doc(db, "workouts", date), {
+            const day= new Date();
+            let text = day.toString();
+            const result = text.substring(0,15);
+            const saveSpot = result +" " + currentUser.uid +" Disc"
+            
+            await setDoc(doc(db, "workouts", saveSpot), {
                 uid: currentUser.uid,
                 StandReps,
                 StandDistance,
@@ -36,9 +41,10 @@ const LogDisc = () =>{
                 FullReps,
                 FullDistance,
                 date,
+                day:result,
                 event:"Disc",
               });
-
+              alert("practice succesfully logged");
         }catch(err){
             alert(err)
         }

@@ -28,7 +28,12 @@ const LogGlide = () =>{
             
             let date = await new Date().getTime();
             date = date.toString();
-            await setDoc(doc(db, "workouts", date), {
+            const day= new Date();
+            let text = day.toString();
+            const result = text.substring(0,15);
+            const saveSpot = result +" " + currentUser.uid + " Glide"
+
+            await setDoc(doc(db, "workouts", saveSpot), {
                 uid: currentUser.uid,
                 StandReps,
                 StandDistance,
@@ -37,9 +42,10 @@ const LogGlide = () =>{
                 FullReps,
                 FullDistance,
                 date,
+                day:result,
                 event:"Glide",
               });
-
+              alert("practice succesfully logged");
         }catch(err){
             alert(err)
         }
