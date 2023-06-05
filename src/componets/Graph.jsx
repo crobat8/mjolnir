@@ -61,10 +61,10 @@ const Graph = (props) =>{
         let gatheredInfoThree = [];
         let gatheredDates = [];
         for(var i = 0;i<workouts.length;i++){
-            gatheredInfoOne[i] = workouts[i].data[props.throwOne];
-            gatheredInfoTwo[i] = workouts[i].data[props.throwTwo];
-            gatheredInfoThree[i] = workouts[i].data[props.throwThree];
-            gatheredDates[i] = workouts[i].data.day;
+            gatheredInfoOne[workouts.length-1-i] = workouts[i].data[props.throwOne];
+            gatheredInfoTwo[workouts.length-1-i] = workouts[i].data[props.throwTwo];
+            gatheredInfoThree[workouts.length-1-i] = workouts[i].data[props.throwThree];
+            gatheredDates[workouts.length-1-i] = workouts[i].data.day;
         }
         
         const data = {
@@ -91,18 +91,27 @@ const Graph = (props) =>{
             ]
         }
         
-        const options ={
+        /*const options ={
             responsive: true,
             plugins:{
-                legend:true
+                legend:true,
+                drawHorizontalLine: {
+                lineY: [55, 55],
+                lineColor: "rgba(50, 155, 255, 0.85)",
+                text: 'Obj 67 & 68',
+                textPosition: 720,
+                textFont: '18px sans-serif',
+                textColor: "rgba(50, 155, 255, 0.85)"
+                },
             },
-            /*scales:{
+            
+            scales:{
                 y:{
                     min: parseInt(props.domainMin) ,
                     max: parseInt(props.domainMax),
                 }
-            }*/
-        }
+            }
+        }*/
 
         return(
             <div>
@@ -111,7 +120,26 @@ const Graph = (props) =>{
                 </h2>
                 <Line 
                     data={data}
-                    options={options}
+                    options={{
+                        plugins: {
+                          title: {
+                            display: true,
+                            text: "Users Gained between 2016-2020"
+                          },
+                          legend: {
+                            display: false
+                          },
+                          drawHorizontalLine: {
+                            lineY: [55, 55],
+                            lineColor: "rgba(50, 155, 255, 0.85)",
+                            text: 'Obj 67 & 68',
+                            textPosition: 720,
+                            textFont: '18px sans-serif',
+                            textColor: "rgba(50, 155, 255, 0.85)"
+                            },
+                        }
+                    }}
+                    
                 ></Line> 
             </div>
             

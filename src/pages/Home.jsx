@@ -5,6 +5,7 @@ import Graphs from '../componets/Graphs';
 import Workouts from '../componets/Workouts';
 
 import Navbar from '../componets/Navbar';
+import Goals from '../componets/Goals';
 
 
 //import Chat from "../componets/Chat";
@@ -21,6 +22,8 @@ const Home = () =>{
             return <Graphs/>
         }else if(count === 3){
             return <Workouts/>
+        }else if(count === 4){
+            return <Goals/>
         }else {
             return null;
         }
@@ -41,6 +44,9 @@ const Home = () =>{
                         </button>
                         <button onClick={()=>setCount(3)}>
                             Workout
+                        </button>
+                        <button onClick={()=>setCount(4)}>
+                            Goals
                         </button>
                     </div>
                 </div>

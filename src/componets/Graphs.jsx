@@ -20,32 +20,24 @@ const Graphs = () =>{
             throwOne="StandDistance"
             throwTwo="WheelDistance"
             throwThree="FullDistance"
-            domainMin = "10"
-            domainMax = "70"
             />
             <Graph 
                 event ="Glide" 
                 throwOne="StandDistance" 
                 throwTwo="StepbackDistance" 
                 throwThree="FullDistance"
-                domainMin = "10"
-                domainMax = "20"
             />
             <Graph 
                 event ="Rotational"
                 throwOne="StandDistance" 
                 throwTwo="WheelDistance" 
                 throwThree="FullDistance"
-                domainMin = "10"
-                domainMax = "20"
             />
             <Graph 
                 event ="Hammer"
                 throwOne="TwoDistance" 
                 throwTwo="ThreeDistance" 
                 throwThree="FourDistance"
-                domainMin = "10"
-                domainMax = "70"
             />
         </div>
     );

@@ -3,6 +3,7 @@ import LogDisc from "./LogDisc";
 import LogGlide from "./LogGlide";
 import LogRotational from "./LogRotational";
 import LogHammer from "./LogHammer";
+import LogLift from "./LogLift";
 
 
 const Log = () =>{
@@ -19,6 +20,8 @@ const Log = () =>{
             return <LogRotational/>
         }else if(count === 4){
             return <LogHammer/>
+        }else if(count === 5){
+            return <LogLift/>
         }else {
             return null;
         }
@@ -40,6 +43,9 @@ const Log = () =>{
                     </button>
                     <button onClick={()=>setCount(4)}>
                         Hammer
+                    </button>
+                    <button onClick={()=>setCount(5)}>
+                        Lift
                     </button>
                 </div>
                 
