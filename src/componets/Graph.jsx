@@ -6,30 +6,32 @@ import { AuthContext } from "../context/AuthContext";
 import {Line} from "react-chartjs-2";
 import {
     Chart as ChartJS,
-    LineElement,
-    CategoryScale, //x-axis
-    LinearScale, //y-axis
-    PointElement
-} from "chart.js"
-
-ChartJS.register(
-    LineElement,
     CategoryScale,
     LinearScale,
-    PointElement
-)
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
 
 
 const Graph = (props) =>{
 
-
-    
     const{currentUser} = useContext(AuthContext);
 
     const[loading,setLoading] = useState(true);
-
-
 
     const[workouts,setWorkouts] = useState([]);
     
@@ -54,43 +56,65 @@ const Graph = (props) =>{
     function Display(){
         //console.log(workouts[0].data[props.important])
 
-        let gatheredInfo = [];
+        let gatheredInfoOne   = [];
+        let gatheredInfoTwo   = [];
+        let gatheredInfoThree = [];
         let gatheredDates = [];
         for(var i = 0;i<workouts.length;i++){
-            gatheredInfo[i] = workouts[i].data[props.important];
+            gatheredInfoOne[i] = workouts[i].data[props.throwOne];
+            gatheredInfoTwo[i] = workouts[i].data[props.throwTwo];
+            gatheredInfoThree[i] = workouts[i].data[props.throwThree];
             gatheredDates[i] = workouts[i].data.day;
         }
         
         const data = {
             labels: gatheredDates,
             datasets: [{
-                labels: 'Sales of the Week',
-                data: gatheredInfo,
-                backgroundColor: 'aqua',
-                borderColor: 'black',
-                pointBorder: 'green',
-                
-
-            }]
+                    label: props.throwOne,
+                    data: gatheredInfoOne,
+                    backgroundColor: 'aqua',
+                    borderColor: 'black',
+                    pointBorder: 'green',
+                },{
+                    label: props.throwTwo,
+                    data: gatheredInfoTwo,
+                    backgroundColor: 'red',
+                    borderColor: 'black',
+                    pointBorder: 'green',
+                },{
+                    label: props.throwThree,
+                    data: gatheredInfoThree,
+                    backgroundColor: 'yellow',
+                    borderColor: 'black',
+                    pointBorder: 'green',
+                }
+            ]
         }
         
         const options ={
+            responsive: true,
             plugins:{
                 legend:true
             },
-            scales:{
+            /*scales:{
                 y:{
-                    min: 0,
-                    max: 100,
+                    min: parseInt(props.domainMin) ,
+                    max: parseInt(props.domainMax),
                 }
-            }
+            }*/
         }
 
         return(
-            <Line 
-                data={data}
-                options={options}
-            ></Line>
+            <div>
+               <h2>
+                    {props.event}:
+                </h2>
+                <Line 
+                    data={data}
+                    options={options}
+                ></Line> 
+            </div>
+            
             
         )
 
@@ -106,10 +130,7 @@ const Graph = (props) =>{
 
     return(
         <div>
-            <h1>{props.event}</h1>
-            <ul>
-                {workouts.map(workout =><li key={workout.id}>{workout.data[props.important]}</li>)}
-            </ul>
+            
             <Display workouts/>
         </div>
     );
