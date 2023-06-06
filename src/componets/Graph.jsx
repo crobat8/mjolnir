@@ -1,6 +1,6 @@
 import React,{ useState,useContext, useEffect } from "react";
 import {  db  } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { AuthContext } from "../context/AuthContext";
 
 import {Line} from "react-chartjs-2";
@@ -43,7 +43,8 @@ const Graph = (props) =>{
         const workoutCollenctionRef =collection(db,"workouts")
         const siftedW = query(workoutCollenctionRef
             ,where("uid","==",currentUser.uid)
-            ,where("event" ,"==",props.event));
+            ,where("event" ,"==",props.event)
+            ,orderBy("date"));
         getDocs(siftedW)
         .then(response =>{
             
@@ -60,7 +61,8 @@ const Graph = (props) =>{
 
         const siftedL = query(workoutCollenctionRef
             ,where("uid","==",currentUser.uid)
-            ,where("event" ,"==","Lift"));
+            ,where("event" ,"==","Lift")
+            ,orderBy("date"));
         getDocs(siftedL).then(response =>{
             
             const Lift =  response.docs.map(doc =>({
@@ -82,24 +84,61 @@ const Graph = (props) =>{
         let gatheredInfoOne   = [];
         let gatheredInfoTwo   = [];
         let gatheredInfoThree = [];
-        let gatheredDates = [];
-        let gatheredLiftsOne = [];
-        let gatheredLiftsTwo = [];
+        let gatheredDates     = [];
+        let gatheredLiftsOne  = [];
+        let gatheredLiftsTwo  = [];
         var combinedDay = 0;
+        var W = 0;
+        var L = 0;
+        var test = 0;
+        while(W<workouts.length&&L<lifts.length){
+            if(workouts[W].data.day === lifts[L].data.day){
+                console.log("test1");
+                gatheredInfoOne[W] = workouts[W].data[props.throwOne];
+                gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
+                gatheredInfoThree[W] = workouts[W].data[props.throwThree];
+                gatheredLiftsOne[L] = lifts[L].data.WeightOne;
+                gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+                gatheredDates[combinedDay] = workouts[W].data.day;
+                L = L+1;
+                W = W+1;
+                combinedDay++;
+            }else if(workouts[W].data.date > lifts[L].data.date){
+                gatheredLiftsOne[L] = lifts[L].data.WeightOne;
+                gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+                gatheredDates[combinedDay] = lifts[L].data.day;
+                L = L+1;
+                combinedDay++;
+            }else if(workouts[W].data.date < lifts[L].data.date){
+                gatheredInfoOne[W] = workouts[W].data[props.throwOne];
+                gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
+                gatheredInfoThree[W] = workouts[W].data[props.throwThree];
+                gatheredDates[combinedDay] = workouts[W].data.day;
+                W = W+1;
+                combinedDay++;
+            }else{
+                console.log("this should never be scene");
+            }
 
+        }
+        while(W<workouts.length){
+            gatheredInfoOne[W] = workouts[W].data[props.throwOne];
+            gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
+            gatheredInfoThree[W] = workouts[W].data[props.throwThree];
+            gatheredDates[combinedDay] = workouts[W].data.day;
+            W = W+1;
+            combinedDay++;
+
+        }
+        while(L<lifts.length){
+            gatheredLiftsOne[L] = lifts[L].data.WeightOne;
+            gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+            gatheredDates[combinedDay] = lifts[L].data.day;
+            L = L+1;
+            combinedDay++;
+
+        }
         
-        for(var i = 0;i<workouts.length;i++){
-            gatheredInfoOne[workouts.length-1-i] = workouts[i].data[props.throwOne];
-            gatheredInfoTwo[workouts.length-1-i] = workouts[i].data[props.throwTwo];
-            gatheredInfoThree[workouts.length-1-i] = workouts[i].data[props.throwThree];
-            gatheredDates[workouts.length-1-i] = workouts[i].data.day;
-        }
-
-        for(var x = 0;x<lifts.length;x++){
-            gatheredLiftsOne[x] = lifts[x].data.WeightOne;
-            gatheredLiftsTwo[x] = lifts[x].data.WeightTwo;
-        }
-
         const data = {
             labels: gatheredDates,
             datasets: [{
@@ -147,19 +186,20 @@ const Graph = (props) =>{
         const options ={
             responsive: true,
             
-
             scales:{
-                Distance:{
-                    
+                Distance:{  
                     position: 'left',
                 },
                 Weight:{
                     
                     position: 'right',
-                }
+                },
+                xAxes:[{
+                    type:"time",
+                }]
             }
         }
-        console.log("test4");
+
         return(
             <div>
                <h2>

@@ -55,9 +55,9 @@ const LogLift = () =>{
         <div className="Log">
             <form className="Form"onSubmit={handleSubmit}>
                 
-                <label for="NameOne" >Name of first Lift:</label>
+                <label for="NameOne" >Name of First Lift:</label>
                 <input required id="NameOne" name="NameOne" type="text" />
-                <label for="RepsOne" >Reps on Second Lift:</label>
+                <label for="RepsOne" >Reps on First Lift:</label>
                 <input required id="RepsTwo" name="RepsTwo" type="number"/>
                 <label for="WeightOne" >Weight on First Lift:</label>
                 <input required id="WeightOne" name="WeightOne" type="number" />
