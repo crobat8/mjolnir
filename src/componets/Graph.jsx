@@ -231,7 +231,7 @@ const Graph = (props) =>{
                         },
                         afterBody: function(context){
                             if(context[0].datasetIndex === 3){
-                                return [gatheredNameOne[context[0].dataIndex],gatheredRepsOne[context[0].dataIndex]];
+                                return ["Lift Name: "+gatheredNameOne[context[0].dataIndex],"Reps: "+gatheredRepsOne[context[0].dataIndex]];
                             }else if(context[0].datasetIndex === 4){
                                 return ["Lift Name: "+gatheredNameTwo[context[0].dataIndex],"Reps: "+gatheredRepsTwo[context[0].dataIndex]];
                             }
