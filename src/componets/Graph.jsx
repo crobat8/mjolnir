@@ -94,25 +94,25 @@ const Graph = (props) =>{
         while(W<workouts.length&&L<lifts.length){
             if(workouts[W].data.day === lifts[L].data.day){
                 console.log("test1");
-                gatheredInfoOne[W] = workouts[W].data[props.throwOne];
-                gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
-                gatheredInfoThree[W] = workouts[W].data[props.throwThree];
-                gatheredLiftsOne[L] = lifts[L].data.WeightOne;
-                gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+                gatheredInfoOne[combinedDay] = workouts[W].data[props.throwOne];
+                gatheredInfoTwo[combinedDay] = workouts[W].data[props.throwTwo];
+                gatheredInfoThree[combinedDay] = workouts[W].data[props.throwThree];
+                gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
+                gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
                 gatheredDates[combinedDay] = workouts[W].data.day;
                 L = L+1;
                 W = W+1;
                 combinedDay++;
             }else if(workouts[W].data.date > lifts[L].data.date){
-                gatheredLiftsOne[L] = lifts[L].data.WeightOne;
-                gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+                gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
+                gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
                 gatheredDates[combinedDay] = lifts[L].data.day;
                 L = L+1;
                 combinedDay++;
-            }else if(workouts[W].data.date < lifts[L].data.date){
-                gatheredInfoOne[W] = workouts[W].data[props.throwOne];
-                gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
-                gatheredInfoThree[W] = workouts[W].data[props.throwThree];
+            }else if(workouts[combinedDay].data.date < lifts[L].data.date){
+                gatheredInfoOne[combinedDay] = workouts[W].data[props.throwOne];
+                gatheredInfoTwo[combinedDay] = workouts[W].data[props.throwTwo];
+                gatheredInfoThree[combinedDay] = workouts[W].data[props.throwThree];
                 gatheredDates[combinedDay] = workouts[W].data.day;
                 W = W+1;
                 combinedDay++;
@@ -122,17 +122,17 @@ const Graph = (props) =>{
 
         }
         while(W<workouts.length){
-            gatheredInfoOne[W] = workouts[W].data[props.throwOne];
-            gatheredInfoTwo[W] = workouts[W].data[props.throwTwo];
-            gatheredInfoThree[W] = workouts[W].data[props.throwThree];
+            gatheredInfoOne[combinedDay] = workouts[W].data[props.throwOne];
+            gatheredInfoTwo[combinedDay] = workouts[W].data[props.throwTwo];
+            gatheredInfoThree[combinedDay] = workouts[W].data[props.throwThree];
             gatheredDates[combinedDay] = workouts[W].data.day;
             W = W+1;
             combinedDay++;
 
         }
         while(L<lifts.length){
-            gatheredLiftsOne[L] = lifts[L].data.WeightOne;
-            gatheredLiftsTwo[L] = lifts[L].data.WeightTwo;
+            gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
+            gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
             gatheredDates[combinedDay] = lifts[L].data.day;
             L = L+1;
             combinedDay++;
@@ -148,6 +148,7 @@ const Graph = (props) =>{
                     borderColor: 'black',
                     pointBorder: 'green',
                     yAxisID : 'Distance',
+                    spanGaps: true,
                 },{
                     label: props.throwTwo,
                     data: gatheredInfoTwo,
@@ -155,6 +156,7 @@ const Graph = (props) =>{
                     borderColor: 'black',
                     pointBorder: 'green',
                     yAxisID : 'Distance',
+                    spanGaps: true,
                 },{
                     label: props.throwThree,
                     data: gatheredInfoThree,
@@ -162,6 +164,7 @@ const Graph = (props) =>{
                     borderColor: 'black',
                     pointBorder: 'green',
                     yAxisID : 'Distance',
+                    spanGaps: true,
                 },{
                     label: "primary Lift",
                     data: gatheredLiftsOne,
@@ -185,7 +188,8 @@ const Graph = (props) =>{
         
         const options ={
             responsive: true,
-            
+            pointRadius: 3,
+            pointHoverRadius: 5,
             scales:{
                 Distance:{  
                     position: 'left',
