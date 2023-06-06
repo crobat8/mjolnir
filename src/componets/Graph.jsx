@@ -85,21 +85,36 @@ const Graph = (props) =>{
         let gatheredInfoTwo   = [];
         let gatheredInfoThree = [];
         let gatheredDates     = [];
+        let gatheredNameOne   = [];
+        let gatheredRepsOne   = [];
         let gatheredLiftsOne  = [];
+        let gatheredNameTwo   = [];
+        let gatheredRepsTwo  = [];
         let gatheredLiftsTwo  = [];
+
+        
+        let g
+
         var combinedDay = 0;
         var W = 0;
         var L = 0;
-        var test = 0;
+        
         while(W<workouts.length&&L<lifts.length){
             if(workouts[W].data.day === lifts[L].data.day){
-                console.log("test1");
                 gatheredInfoOne[combinedDay] = workouts[W].data[props.throwOne];
                 gatheredInfoTwo[combinedDay] = workouts[W].data[props.throwTwo];
                 gatheredInfoThree[combinedDay] = workouts[W].data[props.throwThree];
+                
                 gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
                 gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
+                gatheredRepsOne[combinedDay]  = lifts[L].data.RepsOne;
+                gatheredRepsTwo[combinedDay]  = lifts[L].data.RepsTwo;
+                gatheredNameOne[combinedDay]  = lifts[L].data.NameOne;
+                gatheredNameTwo[combinedDay]  = lifts[L].data.NameTwo;
+
                 gatheredDates[combinedDay] = workouts[W].data.day;
+                
+                
                 L = L+1;
                 W = W+1;
                 combinedDay++;
@@ -107,6 +122,14 @@ const Graph = (props) =>{
                 gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
                 gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
                 gatheredDates[combinedDay] = lifts[L].data.day;
+
+                gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
+                gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
+                gatheredRepsOne[combinedDay]  = lifts[L].data.RepsOne;
+                gatheredRepsTwo[combinedDay]  = lifts[L].data.RepsTwo;
+                gatheredNameOne[combinedDay]  = lifts[L].data.NameOne;
+                gatheredNameTwo[combinedDay]  = lifts[L].data.NameTwo;
+
                 L = L+1;
                 combinedDay++;
             }else if(workouts[combinedDay].data.date < lifts[L].data.date){
@@ -134,6 +157,14 @@ const Graph = (props) =>{
             gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
             gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
             gatheredDates[combinedDay] = lifts[L].data.day;
+            
+            gatheredLiftsOne[combinedDay] = lifts[L].data.WeightOne;
+            gatheredLiftsTwo[combinedDay] = lifts[L].data.WeightTwo;
+            gatheredRepsOne[combinedDay]  = lifts[L].data.RepsOne;
+            gatheredRepsTwo[combinedDay]  = lifts[L].data.RepsTwo;
+            gatheredNameOne[combinedDay]  = lifts[L].data.NameOne;
+            gatheredNameTwo[combinedDay]  = lifts[L].data.NameTwo;
+
             L = L+1;
             combinedDay++;
 
@@ -149,6 +180,7 @@ const Graph = (props) =>{
                     pointBorder: 'green',
                     yAxisID : 'Distance',
                     spanGaps: true,
+                    
                 },{
                     label: props.throwTwo,
                     data: gatheredInfoTwo,
@@ -190,6 +222,25 @@ const Graph = (props) =>{
             responsive: true,
             pointRadius: 3,
             pointHoverRadius: 5,
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        afterTitle: function(context){
+                            return '____________________'
+  
+                        },
+                        afterBody: function(context){
+                            if(context[0].datasetIndex === 3){
+                                return [gatheredNameOne[context[0].dataIndex],gatheredRepsOne[context[0].dataIndex]];
+                            }else if(context[0].datasetIndex === 4){
+                                return ["Lift Name: "+gatheredNameTwo[context[0].dataIndex],"Reps: "+gatheredRepsTwo[context[0].dataIndex]];
+                            }
+                        },
+                         
+                        
+                    }
+                }
+            },
             scales:{
                 Distance:{  
                     position: 'left',
@@ -198,9 +249,6 @@ const Graph = (props) =>{
                     
                     position: 'right',
                 },
-                xAxes:[{
-                    type:"time",
-                }]
             }
         }
 
