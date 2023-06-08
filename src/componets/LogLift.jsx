@@ -18,9 +18,6 @@ const LogLift = () =>{
         const NameTwo = e.target[3].value;
         const RepsTwo = e.target[4].value;
         const WeightTwo = e.target[5].value;
-
-        console.log(currentUser);
-        
         
         try{
             

@@ -35,9 +35,13 @@ const Graph = (props) =>{
 
     const[loading2,setLoading2] = useState(true);
 
+    const[loading3,setLoading3] = useState(true);
+
     const[workouts,setWorkouts] = useState([]);
 
     const[lifts,setLifts]=useState([]);
+
+    const[goal,setGoal]=useState();
     
     function getWorkouts(){
         const workoutCollenctionRef =collection(db,"workouts")
@@ -58,7 +62,6 @@ const Graph = (props) =>{
         )
         .catch(error => console.error(error.message))
 
-
         const siftedL = query(workoutCollenctionRef
             ,where("uid","==",currentUser.uid)
             ,where("event" ,"==","Lift")
@@ -72,19 +75,35 @@ const Graph = (props) =>{
             setLifts(Lift)
             setLoading2(false);
         }
-        
+        )
+        .catch(error => console.error(error.message))
+
+        const GoalCollenctionRef =collection(db,"Goals")
+        const siftedG = query(GoalCollenctionRef
+            ,where("uid","==",currentUser.uid));
+        getDocs(siftedG).then(response =>{
+            
+            const Goal =  response.docs.map(doc =>({
+                data: doc.data(),
+                id: doc.id,
+            }))
+            setGoal(Goal)
+            setLoading3(false);
+        }
         )
         .catch(error => console.error(error.message))
     }
     
 
     function Display(){
-        //console.log(workouts[0].data[props.important])
+
 
         let gatheredInfoOne   = [];
         let gatheredInfoTwo   = [];
         let gatheredInfoThree = [];
+        
         let gatheredDates     = [];
+        
         let gatheredNameOne   = [];
         let gatheredRepsOne   = [];
         let gatheredLiftsOne  = [];
@@ -92,12 +111,13 @@ const Graph = (props) =>{
         let gatheredRepsTwo  = [];
         let gatheredLiftsTwo  = [];
 
-        
-        let g
+        let gatheredGoals = []; 
 
         var combinedDay = 0;
         var W = 0;
         var L = 0;
+
+        gatheredGoals[0] = goal[0].data[props.event];
         
         while(W<workouts.length&&L<lifts.length){
             if(workouts[W].data.day === lifts[L].data.day){
@@ -170,6 +190,8 @@ const Graph = (props) =>{
 
         }
         
+        gatheredGoals[combinedDay-1] = goal[0].data[props.event];
+
         const data = {
             labels: gatheredDates,
             datasets: [{
@@ -213,6 +235,14 @@ const Graph = (props) =>{
                     pointBorder: 'green',
                     yAxisID : 'Weight',
                     showLine: false
+                },{
+                    label: "Goal",
+                    data: gatheredGoals,
+                    backgroundColor: 'purple ',
+                    borderColor: 'black',
+                    pointBorder: 'green',
+                    yAxisID : 'Distance',
+                    spanGaps: true,
                 }
             ]
         }
@@ -273,7 +303,7 @@ const Graph = (props) =>{
         getWorkouts();
     },[])
 
-    if(loading1 || loading2){
+    if(loading1 || loading2||loading3){
         return <h1>loading data</h1>;
     }
 
